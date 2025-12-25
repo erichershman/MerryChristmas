@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Merry Christmas</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #3c8d0d;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        h1 {
+            border-color: black;
+            color: #FF0000;
+            margin-bottom: 30px;
+            font-size: 2.8rem;
+            letter-spacing: 1px;
+            text-shadow:
+                    -2px -2px 0 #000,
+                    2px -2px 0 #000,
+                    -2px 2px 0 #000,
+                    2px 2px 0 #000,
+                    0 0 8px rgba(0, 0, 0, 0.5);        }
+
+        .image-tile-container {
+            display: inline-block;
+            position: relative;
+            border: 5px solid #FF0000;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #ff0000;
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        .image-tile-container img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .next-arrow {
+            position: absolute;
+            top: 30%;
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 36px;
+            color: #c30022;
+            background: #1d0404;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            transition: all 0.2s ease;
+            z-index: 10;
+            border: 3px solid #FFFFFF;
+        }
+
+        .next-arrow:hover {
+            background: #000000;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-arrow {
+            position: absolute;
+            top: 30%;
+            left: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 36px;
+            color: #3c8d0d;
+            background: #000000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            transition: all 0.2s ease;
+            z-index: 10;
+            border: 3px solid #FFFFFF;
+        }
+
+        .prev-arrow:hover {
+            background: #1A6B1A;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #FFFFFF;
+            background: #c30022;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10;
+            border: 2px solid #FFFFFF;
+        }
+
+        .instructions {
+            background: #FF0000;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: #FFFFFF;
+            margin: 30px auto;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 600px;
+            border: 3px solid #FFFFFF;
+        }
+
+        .instructions p {
+            margin: 10px 0;
+        }
+
+        .instructions strong {
+            color: #FFFFFF;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        @media (max-width: 650px) {
+            .image-tile-container {
+                width: 90vw;
+                height: 60vw;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .prev-arrow, .next-arrow {
+                width: 50px;
+                height: 50px;
+                font-size: 28px;
+            }
+
+            body {
+                padding: 10px;
+                background: #006400;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Merry Christmas Emily!</h1>
+    <div class="greetings">
+        <p> <strong> I hope you and Sean have an amazing Christmas! Enjoy this E-Delivery of your belated gifts</strong></p>
+    </div>
+
+    <div class="image-tile-container">
+        <img id="tileImage" src="https://i.imgur.com/4B6gh4U.png" alt="Christmas Image 1">
+
+        <div class="prev-arrow" onclick="prevImage()">←</div>
+        <div class="next-arrow" onclick="nextImage()">→</div>
+
+        </div>
+    <audio controls style="margin-top: 10px; width: 90%;">
+        <source src="https://windriverchimes.com/cdn/shop/files/F418_001.mp3" type="audio/mpeg">
+    </audio>
+    </div>
+
+<script>
+    const images = [
+        "https://i.imgur.com/4B6gh4U.png",
+        "https://i.imgur.com/PHazjTs.png",
+        "https://i.imgur.com/onGL3dR.png"
+    ];
+
+    let currentIndex = 0;
+
+    function updateDisplay() {
+        document.getElementById("tileImage").src = images[currentIndex];
+        document.getElementById("tileImage").alt = `Image ${currentIndex + 1}`;
+        document.getElementById("currentCount").textContent = currentIndex + 1;
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateDisplay();
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateDisplay();
+    }
+
+    // Initialize
+    document.getElementById("totalCount").textContent = images.length;
+    updateDisplay();
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight') {
+            nextImage();
+        } else if (event.key === 'ArrowLeft') {
+            prevImage();
+        }
+    });
+</script>
+
+</body>
+</html>
